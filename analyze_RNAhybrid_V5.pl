@@ -36,6 +36,8 @@ my $time1 = time;
 my $time = $time1-$time0;
 print LOG "Start SeqIO - $time\n";
 
+# test the changes
+
 
 # my $seq_in  = Bio::SeqIO->new( -format => 'fasta',
 #                              -file => $query_seq);
