@@ -54,6 +54,7 @@ my $chr = "A";
 my %polyA;						# tells me whether the cluster contains a sequence with a polyA
 my $chrom;						# whole chromosome sequence
 my $counter = 0;
+my $intron_ev = 0;					# counts the reads which gives the evedence for the intron
 
 while(<IN>)
 {
@@ -399,12 +400,12 @@ print "done\t@timeData - cluster number $Clu_counter\n";
 
 sub findEnd
 {
-	my @list = @_;									#input: $data[3] (position), $data[5] (CIGAR)
+	my @list = @_;				#input: $data[3] (position), $data[5] (CIGAR)
 	
-	my @clip =(0,0);										# array with clip sizes
-	my @match = (0,0,0);									# array with match sizes
-	my @intron = (0,0,0);									# array with intron size
-	my $flag = 0;											# flag for 5'S (1), 3'S (2), both (3) or M too short (4)
+	my @clip =(0,0);			# array with clip sizes
+	my @match = (0,0,0);			# array with match sizes
+	my @intron = (0,0,0);			# array with intron size
+	my $flag = 0;				# flag for 5'S (1), 3'S (2), both (3), M too short (4) or intron (5)
 	
 	
 	if($list[1] =~ /^(\d+)S/)
@@ -441,6 +442,10 @@ sub findEnd
 		$intron[$i] = $1;
 		$i++;
 	}
+	if($intron[0] > 0)
+	{
+		$flag = 5;
+	}
 	
 	my $match_size = 0;
 	
@@ -448,8 +453,6 @@ sub findEnd
 	{
 		$match_size += $n;
 	}
-	
-#		print LOG "CIGAR: $list[1]\tMS: $match_size\t";
 	
 	if($match_size < $min_match)
 	{
