@@ -472,7 +472,7 @@ sub findEnd
 		$match_size2 += $n;
 	}
 	
-	if($match_size < $min_match)
+	if($match_size2 < $min_match)
 	{
 		$flag = 4;
 	}
