@@ -24,6 +24,7 @@ my $min_match = shift;						# minimal size of matched fragments 			55
 my $ratio = shift;							# ration total clip length and number of A's	0.8
 my $polyA_min = shift;						# min number of consecutive A in polyA tail		7
 my $num_polyA = shift;						# min number of polyA sequences in the cluster	1
+my $intron_tresh = shift;					# treshold for the number of reads to confirm the intron 2
 
 $| = 1;
 
@@ -99,9 +100,28 @@ while(<IN>)
 	}
 	
 	my @end = findEnd($data[3], $data[5]);				# input orientation, hit position, CIGAR, and sequence. Calculates according to the CIGAR the end position of the read and finds PolyA regions
+									# return $end1, $end2, $intron[0], $flag, @clip
+	my $end;
 	
+	if($end[2] > 0)
+	{
+		$intron_ev++;
+	}
+	else
+	{
+		$intron_ev = 0;
+	}
 	
-	next if($end[1] == 4);								# hit fragment shorter than min_match
+	if($intron_ev > $intron_tresh)				# if $intron_ev larger than the treshold we will accept the intron und use the corresponding end position
+	{
+		$end = $end[0];
+	}
+	else
+	{
+		$end = $end[1];
+	}
+	
+	next if($end[3] == 4);								# hit fragment shorter than min_match
 	
 	if($data[3] >= $Clu_start)						# if new hit position is bigger than last hit we are still on the same chromosome
 	{
@@ -115,16 +135,16 @@ while(<IN>)
 		{
 			if($end[0] > $Clu_end)
 			{
-				$Clu_end = $end[0];
+				$Clu_end = $end;
 			}
 			
 			if($data[1] == 0)
 			{
 				$Clu_id = $sample ."_F_$Clu_counter";
 				
-				if($end[1] == 2 or $end[1] == 3)
+				if($end[3] == 2 or $end[3] == 3)
 				{
-					polyA($end[3], $data[9], $Clu_id, $end[0], $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
+					polyA($end[5], $data[9], $Clu_id, $end, $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
 				}
 				else
 				{
@@ -136,9 +156,9 @@ while(<IN>)
 			{
 				$Clu_id = $sample ."_R_$Clu_counter";
 				
-				if($end[1] == 1 or $end[1] == 3)
+				if($end[3] == 1 or $end[3] == 3)
 				{
-					polyT($end[2], $data[9], $Clu_id, $data[3], $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
+					polyT($end[4], $data[9], $Clu_id, $data[3], $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
 				}
 				else
 				{
@@ -162,16 +182,16 @@ while(<IN>)
 			}
 			
 			$Clu_counter++;
-			$Clu_end = $end[0];
+			$Clu_end = $end;
 			$Clu_start = $data[3];
 			
 			if($data[1] == 0)
 			{
 				$Clu_id = $sample ."_F_$Clu_counter";
 				
-				if($end[1] == 2 or $end[1] == 3)
+				if($end[3] == 2 or $end[3] == 3)
 				{
-					polyA($end[3], $data[9], $Clu_id, $end[0], $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
+					polyA($end[5], $data[9], $Clu_id, $end, $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
 				}
 				else
 				{
@@ -183,9 +203,9 @@ while(<IN>)
 			{
 				$Clu_id = $sample ."_R_$Clu_counter";
 				
-				if($end[1] == 1 or $end[1] == 3)
+				if($end[3] == 1 or $end[3] == 3)
 				{
-					polyT($end[2], $data[9], $Clu_id, $data[3], $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
+					polyT($end[4], $data[9], $Clu_id, $data[3], $data[2]);		# check for polyA (polyT) - send clip data from above, sequence
 				}
 				else
 				{
@@ -210,16 +230,16 @@ while(<IN>)
 		}
 		
 		$Clu_counter++;
-		$Clu_end = $end[0];
+		$Clu_end = $end;
 		$Clu_start = $data[3];
 		
 		if($data[1] == 0)
 		{
 			$Clu_id = $sample ."_F_$Clu_counter";
 			
-			if($end[1] == 2 or $end[1] == 3)
+			if($end[3] == 2 or $end[3] == 3)
 			{
-				polyA($end[3], $data[9], $Clu_id, $end[0]);			# check for polyA (polyT) - send clip data from above, sequence
+				polyA($end[5], $data[9], $Clu_id, $end);			# check for polyA (polyT) - send clip data from above, sequence
 			}
 			else
 			{
@@ -229,9 +249,9 @@ while(<IN>)
 		elsif($data[1] == 16)
 		{
 			$Clu_id = $sample ."_R_$Clu_counter";
-			if($end[1] == 1 or $end[1] == 3)
+			if($end[3] == 1 or $end[3] == 3)
 			{
-				polyT($end[2], $data[9], $Clu_id, $data[3]);		# check for polyA (polyT) - send clip data from above, sequence
+				polyT($end[4], $data[9], $Clu_id, $data[3]);		# check for polyA (polyT) - send clip data from above, sequence
 			}
 			else
 			{
@@ -442,16 +462,14 @@ sub findEnd
 		$intron[$i] = $1;
 		$i++;
 	}
-	if($intron[0] > 0)
-	{
-		$flag = 5;
-	}
 	
-	my $match_size = 0;
+	my $match_size1 = 0;			# match size with evtl intron
+	my $match_size2 = 0;			# match size without intron
 	
 	foreach my $n (@match)
 	{
-		$match_size += $n;
+		$match_size1 += $n;
+		$match_size2 += $n;
 	}
 	
 	if($match_size < $min_match)
@@ -461,16 +479,13 @@ sub findEnd
 
 	foreach my $n (@intron)
 	{
-		$match_size += $n;
+		$match_size1 += $n;
 	}
 	
-#		print LOG "FS: $match_size\t";
+	my $end1 = $list[0] + $match_size1;
+	my $end2 = $list[0] + $match_size2;
 	
-	my $end = $list[0] + $match_size;
-	
-#		print LOG "S: $list[0]\t E: $end\n";
-	
-	return ($end, $flag, @clip);
+	return ($end1, $end2, $intron[0], $flag, @clip);
 }
 
 
