@@ -57,6 +57,8 @@ my $chrom;						# whole chromosome sequence
 my $counter = 0;
 my $intron_ev = 0;					# counts the reads which gives the evedence for the intron
 
+my $end_old = 0;					
+
 while(<IN>)
 {
 	# NS500352:278:HHYCVBGX7:1:11208:17290:15192	0	Chromosome10	1314089	255	1S61M14S	*	0	0	GTCTGGCTGGGTGTATTCGTATGATTGTAATTATGTGTATGGTTGTGATTCCATTTCTGCGAAAAAAAAAAAAAAA	AAAAAEAEEAEEEE6EEAE/A<EEAEEAEAEEEEEEEAAEEEEE/EA/EAEAEEEE<E/E/E/EEEEA/<EEEEEE	NH:i:1	HI:i:1	AS:i:58	nM:i:1
@@ -102,7 +104,6 @@ while(<IN>)
 	my @end = findEnd($data[3], $data[5]);				# input orientation, hit position, CIGAR, and sequence. Calculates according to the CIGAR the end position of the read and finds PolyA regions
 									# return $end1, $end2, $intron[0], $flag, @clip
 	my $end;
-	my $end_old = 0;
 	
 	if($end[2] > 0)
 	{
@@ -110,10 +111,10 @@ while(<IN>)
 		{
 			$intron_ev++;
 		}
-		elsif($end[2] > 0)
+		else
 		{
 			$end_old = $end[2];
-			$intron_ev = 0;		
+			$intron_ev = 1;		
 		}
 	}
 	
