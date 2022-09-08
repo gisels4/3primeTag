@@ -120,7 +120,7 @@ while(<IN>)
 	{
 		$end = $end[1];
 	}
-	
+	print "$end[2] - $intron_ev - $end - $end[0] - $end[1]\n";
 	next if($end[3] == 4);								# hit fragment shorter than min_match
 	
 	if($data[3] >= $Clu_start)						# if new hit position is bigger than last hit we are still on the same chromosome
