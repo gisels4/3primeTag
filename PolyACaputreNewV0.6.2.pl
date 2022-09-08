@@ -102,14 +102,19 @@ while(<IN>)
 	my @end = findEnd($data[3], $data[5]);				# input orientation, hit position, CIGAR, and sequence. Calculates according to the CIGAR the end position of the read and finds PolyA regions
 									# return $end1, $end2, $intron[0], $flag, @clip
 	my $end;
+	my $end_old = 0;
 	
 	if($end[2] > 0)
 	{
-		$intron_ev++;
-	}
-	else
-	{
-		$intron_ev = 0;
+		if($end[2] = $end_old)
+		{
+			$intron_ev++;
+		}
+		elsif($end[2] > 0)
+		{
+			$end_old = $end[2];
+			$intron_ev = 0;		
+		}
 	}
 	
 	if($intron_ev > $intron_tresh)				# if $intron_ev larger than the treshold we will accept the intron und use the corresponding end position
