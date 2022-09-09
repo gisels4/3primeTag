@@ -101,13 +101,13 @@ while(<IN>)
 		$chrom = $seq->seq();
 	}
 	
-	my @end = findEnd($data[3], $data[5]);				# input orientation, hit position, CIGAR, and sequence. Calculates according to the CIGAR the end position of the read and finds PolyA regions
+	my @end = findEnd($data[3], $data[5]);				# input hit position, CIGAR. Calculates according to the CIGAR the end position of the read
 									# return $end1, $end2, $intron[0], $flag, @clip
 	my $end;
 	
 	if($end[2] > 0)
 	{
-		if($end[2] = $end_old)
+		if($end[2] == $end_old)
 		{
 			$intron_ev++;
 		}
@@ -129,11 +129,11 @@ while(<IN>)
 	
 
 
-	print "$end[2] - $intron_ev - $end - $end[0] - $end[1]\n";
-	if($end[2]>0)
-	{
-		sleep(1);
-	}
+	# print "$end[2] - $intron_ev - $end - $end[0] - $end[1]\n";
+	# if($end[2]>0)
+	# {
+	# 	sleep(1);
+	# }
 
 	
 	next if($end[3] == 4);								# hit fragment shorter than min_match
