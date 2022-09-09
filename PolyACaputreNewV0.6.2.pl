@@ -127,10 +127,14 @@ while(<IN>)
 		$end = $end[1];
 	}
 	
-	if($end[2]>0)
-	{
+	#if($end[2]>0)
+	#{
 		print "$end[2] - $intron_ev - $end - $end[0] - $end[1]\n";
-	}
+		if($end[2]>0)
+		{
+			sleep(1);
+		}
+	#}
 	
 	next if($end[3] == 4);								# hit fragment shorter than min_match
 	
