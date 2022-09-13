@@ -364,7 +364,7 @@ for my $chrom ( keys %Clu_pos )
 				my $strand = "+";
 				my $hsize = 0;
 				
-				for my $clus1 ( keys %{ $polyA{$clus})
+				for my $clus1 ( keys %{ $polyA{$clus}})
 				{
 					$hsize += $polyA{$clus}{$clus1};
 				}
@@ -397,7 +397,7 @@ for my $chrom ( keys %Clu_pos )
 				my $strand = "-";
 				my $hsize = 0;
 				
-				for my $clus1 ( keys %{ $polyA{$clus})
+				for my $clus1 ( keys %{ $polyA{$clus}})
 				{
 					$hsize += $polyA{$clus}{$clus1};
 				}
