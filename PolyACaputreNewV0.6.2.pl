@@ -362,9 +362,15 @@ for my $chrom ( keys %Clu_pos )
 			if($clus =~ /F/)
 			{
 				my $strand = "+";
-				my $hsize = keys %{ $polyA{$clus}};
+				my $hsize = 0;
 				
-				print LOG "hsizeF : $hsize\n";
+				for my $clus1 ( keys %polyA)
+				{
+					$hsize += $polyA{$clus1};
+				}
+				# my $hsize = keys %{ $polyA{$clus}};
+				
+				print LOG "hsizeF $clus : $hsize\n";
 				my @id = findID($chrom,$strand,$Clu_pos{$chrom}{$clus}[0],$Clu_pos{$chrom}{$clus}[1]);
 
 
@@ -389,10 +395,15 @@ for my $chrom ( keys %Clu_pos )
 			elsif($clus =~ /R/)
 			{
 				my $strand = "-";
-
-				my $hsize = keys %{ $polyA{$clus}};
+				my $hsize = 0;
 				
-				print LOG "hsizeR : $hsize\n";
+				for my $clus1 ( keys %polyA)
+				{
+					$hsize += $polyA{$clus1};
+				}
+				# my $hsize = keys %{ $polyA{$clus}};
+				
+				print LOG "hsizeR $clus : $hsize\n";
 				
 				my @id = findID($chrom,$strand,$Clu_pos{$chrom}{$clus}[0],$Clu_pos{$chrom}{$clus}[1]);
 
