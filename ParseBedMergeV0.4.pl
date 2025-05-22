@@ -1,11 +1,9 @@
 #!/usr/local/bin/perl -w
 ############################################################################################################
-#	ParseBedMergeV0.1.pl
+#	ParseBedMergeV0.4.pl
 #
 #	the three replicates from PolyACaputreNewV0.6.pl get merged with cat and sorted by coordinates (sort -k 1,1 -k2,2n)
 #	this file then gets merged with bedtools merge -s -c 4,5 -o collapse -i and the following output gets parsed here
-#	
-#
 #
 #	Created by Andreas Gisel July 2022
 #
