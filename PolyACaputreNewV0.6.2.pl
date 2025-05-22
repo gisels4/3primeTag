@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl -w
 ############################################################################################################
-#	PolyACaptureNewV0.6.2pl
+#	PolyACaptureNewV0.6.2.pl
 #	Extracts from a coordinate sorted bam file the information to build clusters representing 
 #	genes/transcripts and count the reads belonging to each cluster. This cound reflexts directly
 #	the transcript number.
