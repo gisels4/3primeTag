@@ -80,7 +80,7 @@ Manes.01G000031.1.v8.1	19594	1398	1947	1531	1917	1579	1579
 
 Manes.01G000031.1.v8.1	22474	17	22	7	15	13	13
 
-for the statistical downstream analysis you have to parse out the ClusterStart column; we added that since we observed in some cases different cluster for the same gene. We select the clsuter with the highest count numbers.
+For the statistical downstream analysis you have to parse out the ClusterStart column; we added that since we observed in some cases different cluster for the same gene. We normally select the clsuter with the highest count numbers.
 
 cut -f 1,3,4,5,6,7,8 merged_Star-A-B_id.txt > matrix_Star-A-B_id.txt
 
