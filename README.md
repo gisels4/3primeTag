@@ -9,6 +9,7 @@ In most cases, the 3'mRNA-seq data was analysed using the traditional approaches
 With the below scripts we developped an alternative approach to select clustering reads that represent a transcript by the presence of reads that contain the polyA tail.
 
 We developed two scripts:
+
 A) PolyACaptureNewV0.6.1.pl that used a coordinate sorted bam file to extract the read clusters representing each a transcrip, indicating the presence of reads with polyA tails and counting the reads in each cluster.
 
 B) ParseBedMergeV0.3.pl that will parse the information of the merged data of the outputs of PolyACaptureNewV0.6.1.pl, more details below, and create a count matrix for the statistical downstream analysis.
