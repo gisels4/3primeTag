@@ -75,7 +75,9 @@ perl ParseBedMergeV0.3.pl merged_Star-A-B.bed A-1,A-2,A-3,B-1,B-2,B-3 merged_Sta
 The file you are interesteds is merged_Star-A-B_id.txt looking like:
 
 TranscriptID	ClusterStart	 A-1  A-2  A-3  B-1  B-2  B-3
+
 Manes.01G000031.1.v8.1	19594	1398	1947	1531	1917	1579	1579
+
 Manes.01G000031.1.v8.1	22474	17	22	7	15	13	13
 
 for the statistical downstream analysis you have to parse out the ClusterStart column; we added that since we observed in some cases different cluster for the same gene. We select the clsuter with the highest count numbers.
