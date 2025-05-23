@@ -10,7 +10,7 @@ With the below scripts we developped an alternative approach to select clusterin
 
 We developed two scripts:
 
-A) PolyACaptureNewV0.6.1.pl that uses a coordinate sorted bam file to extract the read clusters representing each transcript, indicating the presence of reads with polyA tails and counting the reads in each cluster.
+A) PolyACaptureNewV0.6.1.pl that uses a coordinate sorted bam file to extract the read clusters representing each transcript, indicating the presence of reads with polyA tails and counting the reads in each cluster. **It is IMPORTANT that befor using the aligner reads were NOT clean of the polyAtails!!!!**
 
 B) ParseBedMergeV0.3.pl that will parse the information of the merged data of the outputs of PolyACaptureNewV0.6.1.pl, more details below, and create a count matrix for the statistical downstream analysis.
 
@@ -31,7 +31,9 @@ PolyACaptureNewV0.6.1.pl takes as imput:
 3) the reference gff3 file
 4) the path to the reference sequence, split into the single chromosome and/or scaffold
 5) the log output file name
-6) 
+6) treshold for the minimum size of the cluster to be accepted
+7) treahold for minimal size of matched fragments
+8) ration total clip length and number of A's, the polyA which is clipped by the aligner contains not only As
 
 
 perl PolyACaptureNewV0.6.1.pl MappingV8/STAR_A4_01_2Aligned.out.bam A4-01 BED/STAR_A4_01_5-50-6-2.bed /biodata/ANDREAS/Cassava/ref/V8.1/annotation/Mesculenta_671_v8.1.gene_exons_plus.gff3 /biodata/ANDREAS/Cassava/ref/V8.1/assembly/SeqSplit LOG/STAR_A4_01_5 50-6-2.log 5 50 0.8 6 2
