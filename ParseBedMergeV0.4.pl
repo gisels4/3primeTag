@@ -191,14 +191,14 @@ for my $id ( sort keys %cluster_id )
 		{
 			if($pres >= $clu_count)
 			{
-				print OUT "$id-$start\t$print\n";
+				print OUT "$id\t$start\t$print\n";
 			}
 		}
 		else
 		{
 			if(not $nrprint{$print} and $pres >= $clu_count)
 			{
-				$nrprint{$print} = "$id-$start";
+				$nrprint{$print} = "$id\t$start";
 			}
 		}
 	}
