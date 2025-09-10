@@ -12,7 +12,7 @@ We developed two scripts:
 
 A) PolyACaptureNewV0.6.1.pl that uses a coordinate sorted bam file (preferencially fro the STAR aligner) to extract the read clusters representing each transcript, indicating the presence of reads within the cluster with polyA tails and counting the total reads in each cluster. **It is IMPORTANT that befor using the aligner, reads were NOT clean of the polyAtails!!!!**
 
-The script extracts the position of each read and the CIGAR to establisg according to the position, the skippings (CIGAR S) and the gaps (CIGAR N) to which cluster the reads belongs. If the cluster contains reads with a "real" polyA tail the cluster is tagged. Under "real" polyA tails we understand terminal polyA sequences that were removed by the STAR aligner.
+The script extracts the position of each read and the CIGAR to establish according to the position, the skippings (CIGAR S), and the gaps (CIGAR N) to which cluster the reads belongs. If the cluster contains reads with a "real" polyA tail the cluster is tagged and the plyA reads counted. Under "real" polyA tails we understand terminal polyA or starting polyT sequences that were removed (skipped) by the STAR aligner.
 
 B) ParseBedMergeV0.3.pl that will parse the information of the merged data of the outputs of PolyACaptureNewV0.6.1.pl, more details below, and create a count matrix for the statistical downstream analysis.
 
